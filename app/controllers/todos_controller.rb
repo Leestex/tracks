@@ -36,6 +36,9 @@ class TodosController < ApplicationController
     respond_to do |format|
       format.html do
         @page_title = t('todos.task_list_title')
+        # QLANE PROBE DEFECT (#3882): deliberate off-by-one that drops the last action from the
+        # Home list. Probe branch only; never merge to master.
+        @not_done_todos = @not_done_todos.to_a[0...-1]
         # Set count badge to number of not-done, not hidden context items
         @count = current_user.todos.active.not_hidden.count(:all)
         @todos_without_project = @not_done_todos.select { |t| t.project.nil? }
