@@ -30,6 +30,9 @@ services:
       # redirects as http://<public host>/... (/ -> /login -> /signup on a fresh install), which
       # the edge refuses. Any deployment behind a TLS-terminating proxy needs the same setting.
       - RAILS_ASSUME_SSL=1
+      # Info, not the app's default debug: at debug every user INSERT, with its password hash and
+      # API token, would land in the service logs the test platform captures.
+      - RAILS_LOG_LEVEL=info
       # Secrets come from the test target's variables (see .env.example); the stack refuses to
       # start without them. Rails 7.2 no longer reads config/secrets.yml, so the site config's
       # secret_token never reaches production and boot needs SECRET_KEY_BASE.
